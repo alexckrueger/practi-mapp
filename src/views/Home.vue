@@ -1,18 +1,38 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
-</template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+/* global L*/
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  data: function () {
+    return {
+      message: "This is my mapp app",
+      map: "",
+    };
+  },
+  created: function () {},
+  methods: {},
+  mounted: function () {
+    this.map = L.map("map").setView([41.8781, -87.6298], 13);
+    L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: "mapbox/streets-v11",
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: process.env.VUE_APP_MAP_API,
+    }).addTo(this.map);
   },
 };
 </script>
+
+<template>
+  <div class="home">
+    <h1>{{ message }}</h1>
+    <div id="map"></div>
+  </div>
+</template>
+
+<style>
+#map {
+  height: 500px;
+}
+</style>
